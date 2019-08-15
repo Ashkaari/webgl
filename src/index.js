@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import * as THREE from 'three';
-import Canvas from './components/Canvas';
+import Canvas2 from './components/Canvas2';
 
 class App extends Component {
   render() {
-    return <Canvas />;
+    return <Canvas2 />;
   }
 }
 ReactDOM.render(<App />, document.getElementById('app'));

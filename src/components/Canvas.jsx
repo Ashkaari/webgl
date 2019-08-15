@@ -11,7 +11,7 @@ export default class Canvas extends Component {
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(60, width / height, 1, 1000);
-    this.camera.position.z = 5;
+    this.camera.position.z = 20;
     this.camera.rotation.x = 1.16;
     this.camera.rotation.y = -0.12;
     this.camera.rotation.z = 0.27;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
-import cloudTexture from './smoke-1.png';
+import cloudTexture from '../images/smoke-1.png';
 
 export default class Canvas extends Component {
   componentDidMount() {

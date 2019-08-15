@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
-import leatherTexture from './leather.png';
+import leatherTexture from './../images/stonesurface_color.png';
 
 export default class Canvas2 extends Component {
   componentDidMount() {
@@ -20,11 +20,11 @@ export default class Canvas2 extends Component {
       0.1,
       1000
     );
-    this.camera.position.z = 2;
+    this.camera.position.z = 5;
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setClearColor(0xfafafa);
+    this.renderer.setClearColor(0xf4f4f4);
     this.canvasContainer.appendChild(this.renderer.domElement);
 
     //renderer events to rotate
@@ -42,10 +42,8 @@ export default class Canvas2 extends Component {
     this.scene.add(this.ambient);
 
     this.directLight = new THREE.DirectionalLight(0xffffff, 1);
-    this.directLight.position.set(0, 0, 6);
+    this.directLight.position.set(10, 10, 2);
     this.scene.add(this.directLight);
-
-    // CONTROLS
 
     let geometry = new THREE.SphereGeometry(1, 32, 32);
     let loader = new THREE.TextureLoader();
@@ -101,6 +99,8 @@ export default class Canvas2 extends Component {
 
   animate = () => {
     requestAnimationFrame(this.animate);
+    this.sphere.rotation.y += Math.PI / 300;
+
     this.renderer.render(this.scene, this.camera);
   };
 

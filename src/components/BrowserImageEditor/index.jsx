@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './index.scss';
-
+import addShape from './images/button.png';
 export default class BrowserEditor extends Component {
   componentDidMount() {
     this.initializeCanvas();
@@ -48,7 +48,6 @@ export default class BrowserEditor extends Component {
       this.lastX >= this.canvas.width - width - this.padding.x
         ? this.lastY + width * 1.2 + this.padding.y
         : this.lastY;
-
   };
 
   createShapeArcs = (x, y, w, h) => {
@@ -74,9 +73,9 @@ export default class BrowserEditor extends Component {
     const mouseY = event.clientY;
 
     if (this.clickedShape) {
-      for(let i=0; i< this.clickedShape.arcs.length; i++) {
+      for (let i = 0; i < this.clickedShape.arcs.length; i++) {
         let arc = this.clickedShape.arcs[i];
-        if (Math.sqrt((mouseX-arc.x)**2 + (mouseY-arc.y)**2) < 10) {
+        if (Math.sqrt((mouseX - arc.x) ** 2 + (mouseY - arc.y) ** 2) < 10) {
           this.canvas.dragging = false;
           this.canvas.dragging_arc = true;
           this.clickedArc = arc;
@@ -120,7 +119,6 @@ export default class BrowserEditor extends Component {
     if (this.canvas.dragging) {
       const newPositionX = event.clientX - this.clickedShape.dragX;
       const newPositionY = event.clientY - this.clickedShape.dragY;
-
       if (
         newPositionX <=
           this.canvas.width - this.clickedShape.width - this.padding.x &&
@@ -141,13 +139,50 @@ export default class BrowserEditor extends Component {
     }
 
     if (this.canvas.dragging_arc) {
-      if (event.clientX > this.canvas.width - this.padding.x || event.clientX < this.padding.x || event.clientX < this.clickedShape.x + 10) {
-        return;
+      // detect direction of moving
+      // 1 - increasing +inf
+      // 0 - decreasing -inf
+
+      let directionX = 0;
+      let directionY = 0;
+
+      if (event.clientX > this.clickedArc.x) {
+        directionX = 1;
       }
-      this.clickedShape.width += event.clientX - this.clickedShape.width - this.clickedShape.x;
+
+      if(event.clientY > this.clickedArc.y) {
+        directionY = 1
+      }
+
+      switch (this.clickedArc.position) {
+        case 'topleft':
+        case 'bottomleft': {
+          if (event.clientX < this.padding.x || event.clientX > this.clickedShape.x + this.clickedShape.width - 30) return;
+
+          if (directionX) {
+            this.clickedShape.width -= event.clientX - this.clickedShape.x;
+            this.clickedShape.x = event.clientX;
+          } else {
+            this.clickedShape.width += this.clickedShape.x - event.clientX;
+            this.clickedShape.x -= this.clickedShape.x - event.clientX;
+          }
+
+          if (directionY) {
+            this.clickedShape.height += this.clickedShape.y - event.clientY
+          }
+
+          break;
+        }
+        case 'topright':
+        case 'bottomright': {
+          if (event.clientX > this.canvas.width - this.padding.x || event.clientX < this.clickedShape.x + 30) return;
+
+          this.clickedShape.width +=
+            event.clientX - this.clickedShape.width - this.clickedShape.x;
+          break;
+        }
+      }
       this.draw();
-      this.canvas.style.cursor = 'pointer';
-      this.clickedArc.x = this.clickedShape.x + this.clickedShape.width
     }
   };
 
@@ -214,18 +249,22 @@ export default class BrowserEditor extends Component {
           this shit is not supported in ur browser so go to hell ty
         </canvas>
         <div className="browser-editor__controls">
-          <button
-            onClick={() =>
-              this.createShape(
-                200,
-                240,
-                '#' + parseInt(Math.random() * 0xffffff).toString(16)
-              )
-            }
-          >
-            Add new shape
-          </button>
-          <div className="browser-editor__controls-zoom">
+          <div className="browser-editor__controls-panel">
+            <button
+                className="browser-editor__controls-panel__button"
+                onClick={() =>
+                    this.createShape(
+                        150,
+                        150,
+                        //'#' + parseInt(Math.random() * 0xffffff).toString(16)
+                        "rgba(0,0,0, 0.1)"
+                    )
+                }
+            >
+              <img src={addShape} alt="add new shape" />
+            </button>
+          </div>
+          {/*<div className="browser-editor__controls-zoom">
             <label>
               Zoom bg
               <input
@@ -238,7 +277,7 @@ export default class BrowserEditor extends Component {
               />
             </label>
             <button onClick={this.setImage}>Set background</button>
-          </div>
+          </div>*/}
         </div>
       </div>
     );

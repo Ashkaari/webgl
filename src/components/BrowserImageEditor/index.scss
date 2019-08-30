@@ -1,0 +1,22 @@
+.browser-editor {
+  &__block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__controls {
+    width: 50vw;
+    padding: 20px;
+    background-color: #eaf2ff;
+
+    &-zoom {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      margin-top: 20px;
+      max-width: 200px;
+      height: 100px;
+    }
+  }
+}

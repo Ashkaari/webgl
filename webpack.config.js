@@ -14,6 +14,14 @@ module.exports = {
         }
       },
       {
+        test: /\.scss/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' }
+        ]
+      },
+      {
         test: /\.html$/,
         use: [
           {
@@ -22,7 +30,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|svg|jpg|gif|mtl|obj)$/,
         use: [{ loader: 'file-loader' }]
       }
     ]
